@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nilesh Mandal – Mechanical Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+--bg: #0d0d0d;
+--surface: #141414;
+--surface2: #1c1c1c;
+--accent: #e8c547;
+--accent2: #ff6b35;
+--text: #f0ede6;
+--muted: #888;
+--border: #2a2a2a;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+background: var(--bg);
+color: var(--text);
+font-family: 'DM Sans', sans-serif;
+font-weight: 300;
+overflow-x: hidden;
+cursor: none;
+}
+
+.cursor {
+width: 10px; height: 10px;
+background: var(--accent);
+border-radius: 50%;
+position: fixed; top: 0; left: 0;
+pointer-events: none;
+z-index: 9999;
+transition: transform 0.15s ease;
+mix-blend-mode: difference;
+}
+.cursor-ring {
+width: 36px; height: 36px;
+border: 1.5px solid var(--accent);
+border-radius: 50%;
+position: fixed; top: 0; left: 0;
+pointer-events: none;
+z-index: 9998;
+transition: transform 0.35s ease, opacity 0.2s;
+opacity: 0.5;
+}
+
+body::before {
+content: '';
+position: fixed; inset: 0;
+background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+pointer-events: none;
+z-index: 1000;
+opacity: 0.4;
+}
+
+nav {
+position: fixed; top: 0; left: 0; right: 0;
+z-index: 100;
+display: flex; align-items: center; justify-content: space-between;
+padding: 20px 48px;
+background: linear-gradient(to bottom, rgba(13,13,13,0.95), transparent);
+}
+.nav-logo {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 22px;
+letter-spacing: 3px;
+color: var(--accent);
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+font-family: 'DM Mono', monospace;
+font-size: 11px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--muted);
+text-decoration: none;
+transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+.hero {
+min-height: 100vh;
+display: grid;
+grid-template-columns: 1fr 1fr;
+position: relative;
+overflow: hidden;
+}
+.hero-left {
+display: flex; flex-direction: column; justify-content: flex-end;
+padding: 120px 48px 80px;
+position: relative; z-index: 2;
+}
+.hero-tag {
+font-family: 'DM Mono', monospace;
+font-size: 11px;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(--accent);
+margin-bottom: 24px;
+opacity: 0;
+animation: fadeUp 0.8s 0.2s forwards;
+}
+h1.hero-name {
+font-family: 'Bebas Neue', sans-serif;
+font-size: clamp(72px, 9vw, 130px);
+line-height: 0.9;
+letter-spacing: 2px;
+color: var(--text);
+opacity: 0;
+animation: fadeUp 0.8s 0.4s forwards;
+}
+h1.hero-name span { color: var(--accent); display: block; }
+.hero-sub {
+margin-top: 28px;
+font-size: 15px;
+line-height: 1.7;
+color: var(--muted);
+max-width: 420px;
+opacity: 0;
+animation: fadeUp 0.8s 0.6s forwards;
+}
+.hero-cta {
+margin-top: 44px;
+display: flex; gap: 16px; align-items: center;
+opacity: 0;
+animation: fadeUp 0.8s 0.8s forwards;
+}
+.btn {
+display: inline-block;
+padding: 14px 32px;
+font-family: 'DM Mono', monospace;
+font-size: 11px;
+letter-spacing: 2px;
+text-transform: uppercase;
+text-decoration: none;
+border: 1px solid var(--accent);
+color: var(--accent);
+transition: all 0.25s;
+}
+.btn:hover { background: var(--accent); color: var(--bg); }
+.btn.filled { background: var(--accent); color: var(--bg); }
+.btn.filled:hover { background: transparent; color: var(--accent); }
+.hero-right {
+position: relative;
+display: flex; align-items: center; justify-content: center;
+}
+.hero-gear {
+position: absolute;
+width: 520px; height: 520px;
+opacity: 0.06;
+animation: rotateSlow 40s linear infinite;
+}
+.hero-stat-block {
+position: relative; z-index: 2;
+display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+width: 340px;
+opacity: 0;
+animation: fadeIn 1s 1s forwards;
+}
+.stat-card {
+background: var(--surface);
+border: 1px solid var(--border);
+padding: 28px 24px;
+transition: border-color 0.2s, transform 0.2s;
+}
+.stat-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.stat-num {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 48px;
+color: var(--accent);
+line-height: 1;
+}
+.stat-label {
+font-family: 'DM Mono', monospace;
+font-size: 10px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--muted);
+margin-top: 6px;
+}
+.hero-scroll {
+position: absolute; bottom: 36px; left: 48px;
+font-family: 'DM Mono', monospace;
+font-size: 10px;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(--muted);
+display: flex; align-items: center; gap: 12px;
+opacity: 0;
+animation: fadeIn 1s 1.2s forwards;
+}
+.scroll-line {
+width: 40px; height: 1px;
+background: var(--muted);
+position: relative;
+overflow: hidden;
+}
+.scroll-line::after {
+content: '';
+position: absolute; top: 0; left: -100%;
+width: 100%; height: 100%;
+background: var(--accent);
+animation: scanLine 2s 1.5s infinite;
+}
+
+section {
+padding: 100px 48px;
+max-width: 1200px;
+margin: 0 auto;
+}
+.section-label {
+font-family: 'DM Mono', monospace;
+font-size: 10px;
+letter-spacing: 4px;
+text-transform: uppercase;
+color: var(--accent);
+margin-bottom: 16px;
+}
+.section-title {
+font-family: 'Bebas Neue', sans-serif;
+font-size: clamp(40px, 5vw, 64px);
+letter-spacing: 2px;
+line-height: 1;
+margin-bottom: 56px;
+}
+.divider { width: 100%; height: 1px; background: var(--border); margin: 0; }
+
+.skills-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+gap: 2px;
+}
+.skill-item {
+background: var(--surface);
+border: 1px solid var(--border);
+padding: 24px 20px;
+transition: all 0.25s;
+position: relative;
+overflow: hidden;
+}
+.skill-item::before {
+content: '';
+position: absolute; bottom: 0; left: 0;
+width: 0; height: 2px;
+background: var(--accent);
+transition: width 0.3s;
+}
+.skill-item:hover::before { width: 100%; }
+.skill-item:hover { border-color: var(--accent); transform: translateY(-4px); }
+.skill-icon { font-size: 22px; margin-bottom: 12px; }
+.skill-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+
+.exp-item {
+display: grid;
+grid-template-columns: 200px 1fr;
+gap: 48px;
+padding: 40px 0;
+border-bottom: 1px solid var(--border);
+}
+.exp-item:first-child { border-top: 1px solid var(--border); }
+.exp-date {
+font-family: 'DM Mono', monospace;
+font-size: 11px;
+letter-spacing: 1px;
+color: var(--muted);
+padding-top: 4px;
+}
+.exp-company {
+font-family: 'DM Mono', monospace;
+font-size: 11px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--accent);
+margin-bottom: 8px;
+}
+.exp-role {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 28px;
+letter-spacing: 1px;
+margin-bottom: 16px;
+}
+.exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.exp-bullets li {
+font-size: 14px;
+color: var(--muted);
+padding-left: 16px;
+position: relative;
+line-height: 1.6;
+}
+.exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+
+.edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.edu-card {
+background: var(--surface);
+border: 1px solid var(--border);
+padding: 36px 28px;
+transition: all 0.25s;
+}
+.edu-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+.edu-degree {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 22px;
+letter-spacing: 1px;
+margin-bottom: 8px;
+line-height: 1.2;
+}
+.edu-institute { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+.edu-score { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 1px; }
+
+.cert-row {
+display: flex; align-items: center; gap: 24px;
+padding: 24px 0;
+border-bottom: 1px solid var(--border);
+}
+.cert-row:first-child { border-top: 1px solid var(--border); }
+.cert-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--border); min-width: 56px; }
+.cert-name { font-size: 15px; font-weight: 500; flex: 1; }
+.cert-org { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+
+.lang-row { display: flex; gap: 2px; flex-wrap: wrap; }
+.lang-pill {
+background: var(--surface);
+border: 1px solid var(--border);
+padding: 14px 28px;
+font-family: 'DM Mono', monospace;
+font-size: 12px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--text);
+transition: all 0.2s;
+}
+.lang-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+.contact-section {
+background: var(--surface);
+border: 1px solid var(--border);
+padding: 64px 56px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 64px;
+align-items: center;
+max-width: 1200px;
+margin: 0 auto 100px;
+}
+.contact-title {
+font-family: 'Bebas Neue', sans-serif;
+font-size: clamp(48px, 6vw, 80px);
+line-height: 0.95;
+letter-spacing: 2px;
+}
+.contact-title span { color: var(--accent); }
+.contact-detail { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+.contact-detail-icon { font-size: 18px; margin-top: 2px; }
+.contact-detail-label {
+font-family: 'DM Mono', monospace;
+font-size: 10px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--muted);
+margin-bottom: 4px;
+}
+.contact-detail-value { font-size: 14px; color: var(--text); }
+
+footer {
+border-top: 1px solid var(--border);
+padding: 28px 48px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+footer span {
+font-family: 'DM Mono', monospace;
+font-size: 10px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(--muted);
+}
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+@keyframes rotateSlow {
+from { transform: rotate(0deg); }
+to { transform: rotate(360deg); }
+}
+@keyframes scanLine {
+0% { left: -100%; }
+100% { left: 100%; }
+}
+
+.reveal {
+opacity: 0;
+transform: translateY(24px);
+transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+nav { padding: 16px 24px; }
+.nav-links { display: none; }
+.hero { grid-template-columns: 1fr; }
+.hero-right { display: none; }
+section { padding: 60px 24px; }
+.exp-item { grid-template-columns: 1fr; gap: 12px; }
+.edu-grid { grid-template-columns: 1fr; }
+.contact-section { grid-template-columns: 1fr; padding: 40px 28px; }
+footer { flex-direction: column; gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+<div class="nav-logo">NM</div>
+<ul class="nav-links">
+<li><a href="#about">About</a></li>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#experience">Experience</a></li>
+<li><a href="#education">Education</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+
+<div class="hero">
+<div class="hero-left">
+<p class="hero-tag">⚙ Mechanical Engineer · Production Specialist</p>
+<h1 class="hero-name">Nilesh<span>Mandal</span></h1>
+<p class="hero-sub">
+Production Engineer with ~2 years of experience driving efficiency and quality across high-paced manufacturing environments. Hands-on expertise in conveyor system troubleshooting, sheet metal fabrication, shop floor management, and site support — consistently delivering results that reduce downtime and improve production flow.
+</p>
+<div class="hero-cta">
+<a href="#experience" class="btn filled">View Experience</a>
+<a href="#contact" class="btn">Contact Me</a>
+</div>
+</div>
+<div class="hero-right">
+<svg class="hero-gear" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M100 60a40 40 0 100 80 40 40 0 000-80zm0 0" stroke="#e8c547" stroke-width="2"/>
+<path d="M92 10h16l4 18a72 72 0 0118.5 7.7l16.5-8.3 11.3 11.3-8.3 16.5A72 72 0 01157.4 73l18 4v16l-18 4a72 72 0 01-7.7 18.5l8.3 16.5-11.3 11.3-16.5-8.3A72 72 0 01112 142.6l-4 18H92l-4-18a72 72 0 01-18.5-7.7l-16.5 8.3-11.3-11.3 8.3-16.5A72 72 0 0142.6 97l-18-4V77l18-4a72 72 0 017.7-18.5l-8.3-16.5 11.3-11.3 16.5 8.3A72 72 0 0188 27.4z" stroke="#e8c547" stroke-width="2"/>
+</svg>
+<div class="hero-stat-block">
+<div class="stat-card">
+<div class="stat-num">1.5<span style="font-size:24px">+</span></div>
+<div class="stat-label">Years Exp.</div>
+</div>
+<div class="stat-card">
+<div class="stat-num">8.72</div>
+<div class="stat-label">B.Tech CGPA</div>
+</div>
+<div class="stat-card">
+<div class="stat-num">4</div>
+<div class="stat-label">Languages</div>
+</div>
+<div class="stat-card">
+<div class="stat-num">2</div>
+<div class="stat-label">Certifications</div>
+</div>
+</div>
+</div>
+<div class="hero-scroll">
+<div class="scroll-line"></div>
+Scroll to explore
+</div>
+</div>
+
+<div class="divider"></div>
+
+<section id="skills">
+<p class="section-label reveal">What I bring</p>
+<h2 class="section-title reveal">Core Skills</h2>
+<div class="skills-grid">
+<div class="skill-item reveal"><div class="skill-icon">🏭</div><div class="skill-name">Production Operations</div></div>
+<div class="skill-item reveal"><div class="skill-icon">⚙️</div><div class="skill-name">Conveyor Systems</div></div>
+<div class="skill-item reveal"><div class="skill-icon">🔍</div><div class="skill-name">Quality Control</div></div>
+<div class="skill-item reveal"><div class="skill-icon">🔧</div><div class="skill-name">Preventive Maintenance</div></div>
+<div class="skill-item reveal"><div class="skill-icon">📐</div><div class="skill-name">AutoCAD (2D)</div></div>
+<div class="skill-item reveal"><div class="skill-icon">🖥️</div><div class="skill-name">SolidWorks (3D)</div></div>
+<div class="skill-item reveal"><div class="skill-icon">📋</div><div class="skill-name">5S & Kaizen</div></div>
+<div class="skill-item reveal"><div class="skill-icon">🤝</div><div class="skill-name">Team Coordination</div></div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section id="experience">
+<p class="section-label reveal">Where I've worked</p>
+<h2 class="section-title reveal">Experience</h2>
+<div class="exp-item reveal">
+<div><div class="exp-date">Dec 2024 – Mar 2026</div></div>
+<div>
+<div class="exp-company">Agrograde Robotics · Occipital Technologies Pvt. Ltd.</div>
+<div class="exp-role">Production Engineer</div>
+<ul class="exp-bullets">
+<li>Managed daily production operations to improve efficiency and reduce downtime.</li>
+<li>Handled conveyor system assembly, alignment, troubleshooting, and maintenance.</li>
+<li>Supervised equipment assembly ensuring quality and performance.</li>
+<li>Conducted quality inspections and coordinated with teams for production targets.</li>
+<li>Provided site support for installation and technical issues.</li>
+</ul>
+</div>
+</div>
+<div class="exp-item reveal">
+<div><div class="exp-date">Sep 2024 – Nov 2024</div></div>
+<div>
+<div class="exp-company">Flash Electronics Pvt. Ltd.</div>
+<div class="exp-role">Production Trainee</div>
+<ul class="exp-bullets">
+<li>Assisted in production, assembly, and inspection processes.</li>
+<li>Gained knowledge of manufacturing workflows, safety, and quality standards.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section id="education">
+<p class="section-label reveal">Academic background</p>
+<h2 class="section-title reveal">Education</h2>
+<div class="edu-grid">
+<div class="edu-card reveal">
+<div class="edu-degree">B.Tech Mechanical Engineering</div>
+<div class="edu-institute">Ballarpur Institute of Technology (DBATU)</div>
+<div class="edu-score">CGPA: 8.72</div>
+</div>
+<div class="edu-card reveal">
+<div class="edu-degree">HSC – Higher Secondary</div>
+<div class="edu-institute">Vidya Vihar Jr. College</div>
+<div class="edu-score">61.62%</div>
+</div>
+<div class="edu-card reveal">
+<div class="edu-degree">SSC – Secondary</div>
+<div class="edu-institute">Chandrapur Public High School</div>
+<div class="edu-score">74.80%</div>
+</div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+<p class="section-label reveal">Training & Certs</p>
+<h2 class="section-title reveal">Certifications</h2>
+<div class="cert-row reveal">
+<div class="cert-num">01</div>
+<div class="cert-name">Workshop Training – Automotive Manufacturing</div>
+<div class="cert-org">Tata Motors · 15 Days</div>
+</div>
+<div class="cert-row reveal">
+<div class="cert-num">02</div>
+<div class="cert-name">CAD using AutoCAD</div>
+<div class="cert-org">CIPET CSTS Chandrapur</div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+<p class="section-label reveal">Communication</p>
+<h2 class="section-title reveal">Languages</h2>
+<div class="lang-row">
+<div class="lang-pill reveal">Hindi</div>
+<div class="lang-pill reveal">English</div>
+<div class="lang-pill reveal">Marathi</div>
+<div class="lang-pill reveal">Bengali</div>
+</div>
+</section>
+
+<div class="contact-section reveal" id="contact">
+<div>
+<p class="section-label">Get in touch</p>
+<h2 class="contact-title">Let's<br/><span>Connect</span></h2>
+</div>
+<div>
+<div class="contact-detail">
+<div class="contact-detail-icon">📍</div>
+<div>
+<div class="contact-detail-label">Location</div>
+<div class="contact-detail-value">Pune, Maharashtra</div>
+</div>
+</div>
+<div class="contact-detail">
+<div class="contact-detail-icon">📞</div>
+<div>
+<div class="contact-detail-label">Phone</div>
+<div class="contact-detail-value">+91 8767130117 · 9403303361</div>
+</div>
+</div>
+<div class="contact-detail">
+<div class="contact-detail-icon">✉️</div>
+<div>
+<div class="contact-detail-label">Email</div>
+<div class="contact-detail-value">nileshmandal0101@gmail.com</div>
+</div>
+</div>
+<!-- ✅ UPDATED: Opens email app with pre-filled subject and body -->
+<a href="mailto:nileshmandal0101@gmail.com?subject=Job%20Opportunity%20%7C%20Nilesh%20Mandal&body=Hi%20Nilesh%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20would%20like%20to%20connect%20with%20you.%0A%0ARegards"
+class="btn" style="margin-top:16px; display:inline-block;" target="_blank">Send Email →</a>
+</div>
+</div>
+
+<footer>
+<span>© 2026 Nilesh Mandal</span>
+<span>Mechanical Engineer · Pune</span>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+mx = e.clientX; my = e.clientY;
+cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
+});
+
+function animateRing() {
+rx += (mx - rx) * 0.12;
+ry += (my - ry) * 0.12;
+ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+requestAnimationFrame(animateRing);
+}
+animateRing();
+
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+entries.forEach((entry, i) => {
+if (entry.isIntersecting) {
+setTimeout(() => entry.target.classList.add('visible'), i * 60);
+observer.unobserve(entry.target);
+}
+});
+}, { threshold: 0.12 });
+
+reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
+
